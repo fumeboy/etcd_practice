@@ -1,0 +1,61 @@
+version: '3'
+networks:
+  etcd_net:
+    ipam:
+      config:
+        - subnet: 192.168.123.0/24 # CIDR的网络前缀法表示掩码
+
+services:
+  etcd1:
+    image: bitnami/etcd
+    container_name: etcd1
+    environment:
+      ETCD_NAME: etcd1
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCDCTL_API: "3"
+      ETCD_INITIAL_CLUSTER_TOKEN: token
+      ETCD_INITIAL_CLUSTER: etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_LISTEN_PEER_URLS: "http://0.0.0.0:2380"
+      # ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://0.0.0.0:2380"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+    networks:
+      etcd_net:
+        ipv4_address: 192.168.123.2
+
+  etcd2:
+    image: bitnami/etcd
+    container_name: etcd2
+    environment:
+      ETCD_NAME: etcd2
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCDCTL_API: "3"
+      ETCD_INITIAL_CLUSTER_TOKEN: token
+      ETCD_INITIAL_CLUSTER: etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_LISTEN_PEER_URLS: "http://0.0.0.0:2380"
+      # ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://0.0.0.0:2380"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+    networks:
+      etcd_net:
+        ipv4_address: 192.168.123.3
+
+  etcd3:
+    image: bitnami/etcd
+    container_name: etcd3
+    environment:
+      ETCD_NAME: etcd3
+      ALLOW_NONE_AUTHENTICATION: "yes"
+      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
+      ETCDCTL_API: "3"
+      ETCD_INITIAL_CLUSTER_TOKEN: token
+      ETCD_INITIAL_CLUSTER: etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
+      ETCD_INITIAL_CLUSTER_STATE: new
+      ETCD_LISTEN_PEER_URLS: "http://0.0.0.0:2380"
+      # ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://0.0.0.0:2380"
+      ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
+    networks:
+      etcd_net:
+        ipv4_address: 192.168.123.4
