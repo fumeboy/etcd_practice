@@ -5,6 +5,15 @@ networks:
       config:
         - subnet: 192.168.123.0/24 # CIDR的网络前缀法表示掩码
 
+# -data-dir：节点保存数据的目录
+# --name：节点的名字
+# --initial-advertise-peer-urls：告知所有集群，他们内部通信的url
+# --listen-peer-urls：集群内部通信实际监听的url
+# --advertise-client-urls：告知所有客户端，该节点的客户端url
+# --listen-client-urls：节点实际监听的url
+# --initial-cluster：初始的集群每个节点的--initial-advertise-peer-urls
+# --initial-cluster-state：节点的状态，new表示新加，existing表示是对已有集群的操作 *
+# --initial-cluster-token：集群的token，用以区分集群
 services:
   etcd1:
     image: bitnami/etcd
@@ -18,7 +27,7 @@ services:
       ETCD_INITIAL_CLUSTER: etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
       ETCD_INITIAL_CLUSTER_STATE: new
       ETCD_LISTEN_PEER_URLS: "http://0.0.0.0:2380"
-      # ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://0.0.0.0:2380"
+      ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://0.0.0.0:2380"
       ETCD_ADVERTISE_CLIENT_URLS: "http://0.0.0.0:2379"
     networks:
       etcd_net:
